@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     echo "building image"
-                    buildImage()
+                    buildImage 'mohibshaikh/mohib-repo:jma-3.0'
                 }
             }
         }
