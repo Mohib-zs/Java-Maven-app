@@ -2,6 +2,9 @@ def gv
 
 pipeline {
     agent any
+    tools {
+        maven 'Maven'
+    }
     stages {
         stage("init") {
             steps {
@@ -14,7 +17,7 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
-                    //gv.buildJar()
+                    gv.buildJar()
                 }
             }
         }
@@ -22,16 +25,14 @@ pipeline {
             steps {
                 script {
                     echo "building image"
-                    //gv.buildImage()
+                    gv.buildImage()
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    ENV = input message: "Select enviroment to deploy to", ok: "Done", parameters: [choice(name: "ONE", choices: ['dev', 'staging', 'prod'], description: '')]
-                    echo "deploying to ${ENV}"
-                    //gv.deployApp()
+                    gv.deployApp()
                 }
             }
         }
