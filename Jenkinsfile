@@ -24,7 +24,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    echo "building image after initialization"
+                    echo "building image of jar file"
                     gv.buildImage()
                 }
             }
