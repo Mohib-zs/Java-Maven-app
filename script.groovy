@@ -11,7 +11,7 @@ def buildVersion() {
 
 def buildJar() {
     echo "building the application..."
-    sh 'mvn package'
+    sh 'mvn clean package'
 } 
 
 def buildImage() {
