@@ -1,3 +1,14 @@
+def buildVersion() {
+    echo 'Incrementing app version..'
+    sh 'mvn build-helper:parse-version versions:set \
+        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+        versions:commit'
+    def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+    def version = matcher[0][1]
+    "$version-$BUILD_NUMBER"
+
+}
+
 def buildJar() {
     echo "building the application..."
     sh 'mvn package'
@@ -6,9 +17,9 @@ def buildJar() {
 def buildImage() {
     echo "building the docker image..."
     withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh 'docker build -t mohibshaikh/mohib-repo:jma-2.0 .'
+        sh "docker build -t mohibshaikh/mohib-repo:$IMAGE_NAME ."
         sh "echo $PASS | docker login -u $USER --password-stdin"
-        sh 'docker push mohibshaikh/mohib-repo:jma-2.0'
+        sh "docker push mohibshaikh/mohib-repo:$IMAGE_NAME"
     }
 } 
 
