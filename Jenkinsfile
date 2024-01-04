@@ -13,10 +13,19 @@ pipeline {
                 }
             }
         }
+
+        stage("build version") {
+            steps {
+                script {"
+                    gv.buildVersion()
+                }
+            }
+        }
+
         stage("build jar") {
             steps {
                 script {
-                    echo "building jar after initialization"
+                    echo "building jar"
                     gv.buildJar()
                 }
             }
@@ -24,7 +33,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    echo "building image of jar file"
+                    echo "building image"
                     gv.buildImage()
                 }
             }
