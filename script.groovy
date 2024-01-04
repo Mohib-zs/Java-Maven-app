@@ -25,6 +25,17 @@ def buildImage() {
 
 def deployApp() {
     echo 'deploying the application...'
+}
+
+def commitVersion() {
+    echo 'commiting version bump...'
+    withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+        sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com/Mohib-zs/Java-Maven-app.git"
+        sh 'git add .'
+        sh 'git commit -m "ci: version bump"'
+        sh 'git push origin HEAD:jenkins-job'
+    }
+
 } 
 
 return this
