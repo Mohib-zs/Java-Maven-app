@@ -13,15 +13,13 @@ pipeline {
                 }
             }
         }
-
         stage("build version") {
             steps {
-                script {"
+                script {
                     gv.buildVersion()
                 }
             }
         }
-
         stage("build jar") {
             steps {
                 script {
