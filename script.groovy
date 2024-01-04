@@ -15,7 +15,7 @@ def buildJar() {
 } 
 
 def buildImage() {
-    echo "building the docker image..."
+    echo "building the docker image...."
     withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
         sh "docker build -t mohibshaikh/mohib-repo:${IMAGE_NAME} ."
         sh "echo $PASS | docker login -u $USER --password-stdin"
