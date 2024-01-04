@@ -31,8 +31,8 @@ def commitVersion() {
     echo 'commiting version bump...'
     withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
         sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com/Mohib-zs/Java-Maven-app.git"
-        sh 'git config --global user.email "jenkins@example.com"'
-        sh 'git config --global user.name "jenkins"'
+        sh 'git config --global user.email "mohibzahid97@gmail.com"'
+        sh 'git config --global user.name "Mohib Shaikh"'
         sh 'git status'
         sh 'git config --list'
         sh 'git add .'
