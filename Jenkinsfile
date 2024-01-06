@@ -16,6 +16,13 @@ pipeline {
                 }
             }
         }
+        stage("build version") {
+            steps {
+                script {
+                    gv.buildVersion()
+                }
+            }
+        }
         stage("build jar") {
             steps {
                 script {
@@ -38,6 +45,13 @@ pipeline {
             steps {
                 script {
                     gv.deployApp()
+                }
+            }
+        }
+        stage("commit version") {
+            steps {
+                script {
+                    gv.commitVersion()
                 }
             }
         }
