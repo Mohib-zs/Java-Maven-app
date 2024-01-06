@@ -1,9 +1,15 @@
+#!usr/bin/env groovy
+
+@Library('jenkins-shared-library')
 def gv
 
 pipeline {
     agent any
     tools {
         maven 'maven 3.9.6'
+    }
+    enviroment{
+        IMAGE_NAME = 'mohibshaikh/mohib-repo:jma-3.0'
     }
     stages {
         stage("init") {
@@ -16,7 +22,7 @@ pipeline {
         stage("build version") {
             steps {
                 script {
-                    gv.buildVersion()
+//                     gv.buildVersion()
                 }
             }
         }
@@ -24,29 +30,34 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
-                    gv.buildJar()
+                    buildJar()
                 }
             }
         }
-        stage("build image") {
+        stage("build and push image") {
             steps {
                 script {
                     echo "building image"
-                    gv.buildImage()
+                    buildImage(env.IMAGE_NAME)
+                    dockerLogin()
+                    dockerPush(env.IMAGE_NAME)
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    gv.deployApp()
+                    echo 'deploying image to server'
+                    def dockerCmd = "docker run -d -p 8080:8080 ${IMAGE_NAME}"
+                    sshagent(['docker-vm-credentials']){
+                        sh "ssh -o StrictHostKeyChecking=no azureuser@172.174.84.123 ${dockerCmd}"
                 }
             }
         }
         stage("commit version") {
             steps {
                 script {
-                    gv.commitVersion()
+//                     gv.commitVersion()
                 }
             }
         }
