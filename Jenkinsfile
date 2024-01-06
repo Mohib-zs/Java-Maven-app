@@ -8,7 +8,7 @@ pipeline {
     tools {
         maven 'maven 3.9.6'
     }
-    enviroment{
+    environment{
         IMAGE_NAME = 'mohibshaikh/mohib-repo:jma-3.0'
     }
     stages {
