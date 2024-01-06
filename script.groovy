@@ -24,7 +24,10 @@ def buildImage() {
 } 
 
 def deployApp() {
-    echo 'deploying the application...'
+    def dockerCmd = "docker run -d -p 3080:3080 ${IMAGE_NAME}"
+    sshagent(['docker-vm-credentials']){
+        sh "ssh -o StrictHostKeyChecking=no azureuser@172.174.84.123 ${dockerCmd}"
+    }
 }
 
 def commitVersion() {

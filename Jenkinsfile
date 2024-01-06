@@ -8,6 +8,9 @@ pipeline {
     tools {
         maven 'maven 3.9.6'
     }
+    enviroment{
+        IMAGE_NAME = 'mohibshaikh/mohib-repo:jma-3.0'
+    }
     stages {
         stage("init") {
             steps {
@@ -19,7 +22,7 @@ pipeline {
         stage("build version") {
             steps {
                 script {
-                    gv.buildVersion()
+//                     gv.buildVersion()
                 }
             }
         }
@@ -35,23 +38,26 @@ pipeline {
             steps {
                 script {
                     echo "building image"
-                    buildImage 'mohibshaikh/mohib-repo:jma-3.0'
+                    buildImage(env.IMAGE_NAME)
                     dockerLogin()
-                    dockerPush 'mohibshaikh/mohib-repo:jma-3.0'
+                    dockerPush(env.IMAGE_NAME)
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    gv.deployApp()
+                    echo 'deploying image to server'
+                    def dockerCmd = "docker run -d -p 8080:8080 ${IMAGE_NAME}"
+                    sshagent(['docker-vm-credentials']){
+                        sh "ssh -o StrictHostKeyChecking=no azureuser@172.174.84.123 ${dockerCmd}"
                 }
             }
         }
         stage("commit version") {
             steps {
                 script {
-                    gv.commitVersion()
+//                     gv.commitVersion()
                 }
             }
         }
