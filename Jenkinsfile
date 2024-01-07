@@ -60,6 +60,7 @@ pipeline {
             steps {
                 script {
 //                     gv.commitVersion()
+                    }
                 }
             }
         }
