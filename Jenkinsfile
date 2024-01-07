@@ -22,7 +22,7 @@ pipeline {
         stage("build version") {
             steps {
                 script {
-//                     gv.buildVersion()
+                    //gv.buildVersion()
                 }
             }
         }
@@ -60,7 +60,7 @@ pipeline {
         stage("commit version") {
             steps {
                 script {
-//                     gv.commitVersion()
+                    //gv.commitVersion()
                 }
             }
         }
