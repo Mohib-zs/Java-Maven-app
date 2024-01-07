@@ -8,7 +8,7 @@ pipeline {
     tools {
         maven 'maven 3.9.6'
     }
-    environment{
+    environment {
         IMAGE_NAME = 'mohibshaikh/mohib-repo:jma-3.0'
     }
     stages {
@@ -48,9 +48,11 @@ pipeline {
             steps {
                 script {
                     echo 'deploying image to server'
-                    def dockerCmd = "docker run -d -p 8080:8080 ${IMAGE_NAME}"
+                    def shellCmd = "bash ./server-cdms.sh ${IMAGE_NAME}"
                     sshagent(['docker-vm-credentials']){
-                        sh "ssh -o StrictHostKeyChecking=no azureuser@172.174.84.123 ${dockerCmd}"
+                        sh "scp server-cmds.sh azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
+                        sh "scp docker-compose.yaml azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
+                        sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com ${shellCmd}"
                 }
             }
         }
