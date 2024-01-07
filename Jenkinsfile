@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     echo 'deploying image to server'
-                    def shellCmd = "bash ./server-cdms.sh ${IMAGE_NAME}"
+                    def shellCmd = "bash /home/azureuser/server-cdms.sh ${IMAGE_NAME}"
                     sshagent(['docker-vm-credentials']){ 
                         sh "scp -v -o StrictHostKeyChecking=no server-cmds.sh azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "scp -v -o StrictHostKeyChecking=no docker-compose.yaml azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
