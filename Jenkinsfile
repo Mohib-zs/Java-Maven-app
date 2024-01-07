@@ -45,7 +45,7 @@ pipeline {
                     sshagent(['docker-vm-credentials']){ 
                         sh "scp -v -o StrictHostKeyChecking=no server-cmds.sh azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "scp -v -o StrictHostKeyChecking=no docker-compose.yaml azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
-                        sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com ${shellCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com"
                     }
                 }
             }
