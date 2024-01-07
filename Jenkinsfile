@@ -53,6 +53,7 @@ pipeline {
                         sh "scp server-cmds.sh azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "scp docker-compose.yaml azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com ${shellCmd}"
+                    }
                 }
             }
         }
@@ -60,7 +61,6 @@ pipeline {
             steps {
                 script {
 //                     gv.commitVersion()
-                    }
                 }
             }
         }
