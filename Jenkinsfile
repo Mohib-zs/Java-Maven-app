@@ -19,13 +19,6 @@ pipeline {
                 }
             }
         }
-        stage("build version") {
-            steps {
-                script {
-                    //gv.buildVersion()
-                }
-            }
-        }
         stage("build jar") {
             steps {
                 script {
@@ -54,13 +47,6 @@ pipeline {
                         sh "scp docker-compose.yaml azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com ${shellCmd}"
                     }
-                }
-            }
-        }
-        stage("commit version") {
-            steps {
-                script {
-                    //gv.commitVersion()
                 }
             }
         }
