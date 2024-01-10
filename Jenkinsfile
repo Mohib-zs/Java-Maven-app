@@ -42,7 +42,7 @@ pipeline {
                 script {
                     echo 'deploying image to server'
                     sshagent(['docker-vm-credentials']){ 
-                        def shellCmd = bash ./server-cdms.sh ${IMAGE_NAME}"
+                        def shellCmd = bash ./serverCmds.sh ${IMAGE_NAME}"
                         sh "scp server-cmds.sh azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "scp docker-compose.yaml azureuser@docker-vm.eastus.cloudapp.azure.com:/home/azureuser"
                         sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com ${shellCmd}"
