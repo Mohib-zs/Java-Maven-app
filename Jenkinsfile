@@ -1,6 +1,7 @@
 #!usr/bin/env groovy
 
 @Library('jenkins-shared-library')
+def gv
 
 pipeline {
     agent any
@@ -17,7 +18,7 @@ pipeline {
                             versions:commit'
                         def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                         def version = matcher[0][1]
-                        env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+                        env.IMAGE_NAME = "mohibshaikh/mohib-repo:${version}-${BUILD_NUMBER}"
                 }
             }
         }
@@ -43,7 +44,7 @@ pipeline {
             steps {
                 script {
                     echo 'deploying image to server'
-                   def shellCmd = "bash ./serverCmds.sh ${IMAGE_NAME}"
+                   def shellCmd = "bash ./serverCmds.sh ${env.IMAGE_NAME}"
                    def azureVm = 'azureuser@docker-vm.eastus.cloudapp.azure.com'
                    sshagent(['docker-vm-credentials']){
                         sh "scp serverCmds.sh ${azureVm}:/home/azureuser"
