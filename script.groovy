@@ -24,7 +24,9 @@ def buildImage() {
 } 
 
 def deployApp() {
-    echo 'deploying the application...'
+    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'K8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+        sh "kubectl apply -f java-app.yaml"
+}
 }
 
 def commitVersion() {
