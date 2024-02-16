@@ -5,6 +5,13 @@ pipeline {
     tools {
         maven 'maven 3.9.6'
     }
+
+    environment {
+        registryName = "AzrRepo"
+        registryCredential = 'ACR'
+        registryUrl = 'azrrepo.azurecr.io'
+    }
+
     stages {
         stage("init") {
             steps {
