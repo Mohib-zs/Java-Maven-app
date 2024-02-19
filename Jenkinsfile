@@ -7,7 +7,8 @@ pipeline {
     }
     environment {
         ACR_LOGIN_SERVER = 'azrrepo.azurecr.io'
-        ACR_REPO = "${ACR_LOGIN_SERVER}/java-app"
+        APP_NAME = 'java-app'
+        ACR_REPO = "${ACR_LOGIN_SERVER}/${APP_NAME}"
     }
     stages {
         stage("init") {
@@ -41,9 +42,6 @@ pipeline {
             }
         }
         stage("deploy") {
-            environment {
-                APP_NAME = 'java-app'
-            }
             steps {
                 script {
                     gv.deployApp()
