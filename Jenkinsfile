@@ -5,13 +5,10 @@ pipeline {
     tools {
         maven 'maven 3.9.6'
     }
-
     environment {
-        registryName = "AzrRepo"
-        registryCredential = 'ACR'
-        registryUrl = 'azrrepo.azurecr.io'
+        ACR_LOGIN_SERVER = 'azrrepo.azurecr.io'
+        ACR_REPO = "${ACR_LOGIN_SERVER}/java-app"
     }
-
     stages {
         stage("init") {
             steps {
@@ -44,6 +41,9 @@ pipeline {
             }
         }
         stage("deploy") {
+            environment {
+                APP_NAME = 'java-app'
+            }
             steps {
                 script {
                     gv.deployApp()

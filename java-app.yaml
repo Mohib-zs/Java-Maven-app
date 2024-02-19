@@ -11,9 +11,11 @@ spec:
       labels:
         app: $APP_NAME
     spec:
+      # imagePullSecrets:     #Only required for external container registries, aks has attached acr
+      # - name: <secret-name>
       containers:
       - name: server
-        image: azrrepo.azurecr.io/java-app:$IMAGE_NAME
+        image: $ACR_REPO:$IMAGE_NAME
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

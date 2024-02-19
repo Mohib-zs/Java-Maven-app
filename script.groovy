@@ -17,15 +17,15 @@ def buildJar() {
 def buildImage() {
     echo "building the docker image...."
     withCredentials([usernamePassword(credentialsId: 'ACR', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh "docker build -t azrrepo.azurecr.io/java-app:${IMAGE_NAME} ."
-        sh "echo $PASS | docker login azrrepo.azurecr.io -u $USER --password-stdin"
-        sh "docker push azrrepo.azurecr.io/java-app:${IMAGE_NAME}"
+        sh "docker build -t ${ACR_REPO}:${IMAGE_NAME} ."
+        sh "echo $PASS | docker login ${ACR_LOGIN_SERVER} -u $USER --password-stdin"
+        sh "docker push ${ACR_REPO}:${IMAGE_NAME}"
     }
 } 
 
 def deployApp() {
     withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'K8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-        sh "kubectl apply -f java-app.yaml"
+        sh "envsubst < java-app.yaml | kubectl apply -f -"      //Install gettext-base(envsubst) in jenkins container, create ACR secret 
 }
 }
 
