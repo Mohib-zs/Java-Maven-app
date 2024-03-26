@@ -2,6 +2,14 @@ def gv
 
 pipeline {
     agent any
+    tools {
+        maven 'maven 3.9.6'
+    }
+    environment {
+        ACR_LOGIN_SERVER = 'azrrepo.azurecr.io'
+        APP_NAME = 'java-app'
+        ACR_REPO = "${ACR_LOGIN_SERVER}/${APP_NAME}"
+    }
     stages {
         stage("init") {
             steps {
@@ -10,11 +18,18 @@ pipeline {
                 }
             }
         }
+        stage("build version") {
+            steps {
+                script {
+                    gv.buildVersion()
+                }
+            }
+        }
         stage("build jar") {
             steps {
                 script {
                     echo "building jar"
-                    //gv.buildJar()
+                    gv.buildJar()
                 }
             }
         }
@@ -22,15 +37,21 @@ pipeline {
             steps {
                 script {
                     echo "building image"
-                    //gv.buildImage()
+                    gv.buildImage()
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    echo "deploying"
-                    //gv.deployApp()
+                    gv.deployApp()
+                }
+            }
+        }
+        stage("commit version") {
+            steps {
+                script {
+                    gv.commitVersion()
                 }
             }
         }
