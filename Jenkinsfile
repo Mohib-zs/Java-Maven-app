@@ -36,6 +36,14 @@ pipeline {
                 }
             }
         }
+        stage("provision server") {
+            steps {
+                script {
+                    echo "provisioning server"
+                    gv.provisionServer
+                }
+            }
+        }
         stage("deploy") {
             steps {
                 script {

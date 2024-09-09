@@ -23,6 +23,10 @@ def buildImage() {
     }
 } 
 
+def provisionServer() {
+    
+}
+
 def deployApp() {
     echo 'deploying the application...'
     def dockerCmd = 'docker run -d -p 3080:3080 mohibshaikh/mohib-repo:react-1.0'
