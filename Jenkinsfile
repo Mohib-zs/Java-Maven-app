@@ -40,30 +40,36 @@ pipeline {
                 }
             }
         }
-        stage("deploy") {
+        stage("provision server") {
+            environment {
+                TF_VAR_env_prefix = 'test'
+            }
             steps {
                 script {
-                    echo 'deploying image to server'
-                   def shellCmd = "bash ./serverCmds.sh ${env.IMAGE_NAME}"
-                   def azureVm = 'azureuser@docker-vm.eastus.cloudapp.azure.com'
-                   sshagent(['docker-vm-credentials']){
-                        sh "scp serverCmds.sh ${azureVm}:/home/azureuser"
-                        sh "scp docker-compose.yaml ${azureVm}:/home/azureuser"
-                        sh "ssh -o StrictHostKeyChecking=no ${azureVm} ${shellCmd}"
-                   }
+                    dir('terraform') {
+                        sh "terraform init"
+                        sh "terraform apply --auto-approve"
+                        PUBLIC_IP = sh(
+                            script: "terraform ouput public_ip_address"
+                            returnStdout: true
+                        ).trim()
+                    }
                 }
             }
         }
-        stage("commit version") {
+        stage("deploy") {
             steps {
                 script {
-                  echo 'commiting version bump...'
-                     withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                         sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com/Mohib-zs/Java-Maven-app.git"
-                         sh 'git add .'
-                         sh 'git commit -m "ci: version bump"'
-                         sh 'git push origin HEAD:jenkins/payment'
-                     }
+                    echo "Waiting for vm to start"
+                    sleep(time: 90, unit: "SECONDS")
+                    echo 'deploying image to server'
+                    def shellCmd = "bash ./serverCmds.sh ${env.IMAGE_NAME}"
+                    def azureVm = 'azureuser@${PUBLIC_IP}'
+                    sshagent(['server-ssh-key']){
+                            sh "scp -o StrictHostKeyChecking=no serverCmds.sh ${azureVm}:/home/azureuser"
+                            sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${azureVm}:/home/azureuser"
+                            sh "ssh -o StrictHostKeyChecking=no ${azureVm} ${shellCmd}"
+                    }
                 }
             }
         }
