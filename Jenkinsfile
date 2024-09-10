@@ -8,6 +8,13 @@ pipeline {
         maven 'maven 3.9.6'
     }
     stages {
+        stage("init") {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
         stage("buildVersion") {
             steps {
                 script {
