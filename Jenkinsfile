@@ -67,11 +67,11 @@ pipeline {
                     sleep(time: 30, unit: "SECONDS")
                     echo 'deploying image to server'
                     def shellCmd = "bash ./serverCmds.sh mohibshaikh/mohib-repo:${IMAGE_NAME}"
-                    def azureVm = 'azureuser@${PUBLIC_IP}'
+                    def azureVm = "azureuser@${PUBLIC_IP}"
                     sshagent(['server-ssh-key']){
                             sh "scp -o StrictHostKeyChecking=no serverCmds.sh ${azureVm}:/home/azureuser"
                             sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${azureVm}:/home/azureuser"
-                            sh "ssh -o StrictHostKeyChecking=no ${azureVm} ${shellCmd}"
+                            sh "ssh -o StrictHostKeyChecking=no ${azureVm} && ${shellCmd}"
                     }
                 }
             }
