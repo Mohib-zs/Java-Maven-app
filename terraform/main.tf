@@ -69,6 +69,7 @@ resource "azurerm_public_ip" "my-app" {
   resource_group_name = azurerm_resource_group.my-app.name
   location            = azurerm_resource_group.my-app.location
   allocation_method   = "Dynamic"
+  sku                 = "Basic"
 }
 
 resource "azurerm_network_interface" "my-app" {
