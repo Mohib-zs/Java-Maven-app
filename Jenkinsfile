@@ -44,13 +44,14 @@ pipeline {
             environment {
                 managedId = credentials("ManagedID for Linux Vm Usage")
                 TF_VAR_env_prefix = 'test'
-                TF_VAR_client_id  = "${managedId}"
+                MY_CRED = credentials('azure-sp-id')
             }
             steps {
                 script {
                     dir('terraform') {
+                        sh "az login --service-principal -u $MY_CRED_CLIENT_ID -p $MY_CRED_CLIENT_SECRET -t $MY_CRED_TENANT_ID"
                         sh "terraform init"
-                        sh "terraform apply --auto-approve"
+                        sh "terraform apply --auto-approve -var $MY_CRED_SUBSCRIPTION_ID"
                         PUBLIC_IP = sh(
                             script: "terraform ouput public_ip_address",
                             returnStdout: true

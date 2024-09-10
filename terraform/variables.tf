@@ -1,7 +1,7 @@
-variable "client_id" {
-  description = "The Client ID of the Managed Identity to use for authentication"
+variable "subscription_id" {
   type        = string
-  default     = null  # Can be provided via environment variables in Jenkins or passed as a variable
+  default     = null
+  sensitive   = true  # Can be provided via environment variables in Jenkins or passed as a variable
 }
 variable subnet_address {
     default = "10.0.1.0/24"

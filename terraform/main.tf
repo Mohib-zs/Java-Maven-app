@@ -1,7 +1,7 @@
 provider "azurerm" {
   features {}
-  client_id = var.client_id
-  use_msi         = true
+  subscription_id = var.subscription_id
+  # use_msi         = true
 }
 
 resource "azurerm_resource_group" "my-app" {
