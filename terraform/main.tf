@@ -5,7 +5,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "my-app" {
-  name     = "${var.env_prefix}-resources"
+  name     = var.resource_group_name
   location = var.location
 }
 

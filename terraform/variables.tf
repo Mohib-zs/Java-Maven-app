@@ -15,6 +15,9 @@ variable env_prefix {
 variable location {
     default = "centralus"
 }
+variable "resource_group_name" {
+    default = "my-app-resources"
+}
 variable my_ip {
     default = "116.90.103.24"
 }

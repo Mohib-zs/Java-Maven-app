@@ -64,7 +64,7 @@ pipeline {
             steps {
                 script {
                     echo "Waiting for vm to start"
-                    sleep(time: 90, unit: "SECONDS")
+                    sleep(time: 30, unit: "SECONDS")
                     echo 'deploying image to server'
                     def shellCmd = "bash ./serverCmds.sh mohibshaikh/mohib-repo:${IMAGE_NAME}"
                     def azureVm = 'azureuser@${PUBLIC_IP}'
