@@ -42,7 +42,9 @@ pipeline {
         }
         stage("provision server") {
             environment {
+                managedId = credentials("ManagedID for Linux Vm Usage")
                 TF_VAR_env_prefix = 'test'
+                TF_VAR_client_id  = managedId
             }
             steps {
                 script {
