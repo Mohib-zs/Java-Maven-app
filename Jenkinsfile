@@ -50,7 +50,7 @@ pipeline {
                     dir('terraform') {
                         sh "az login --service-principal -u $MY_CRED_CLIENT_ID -p $MY_CRED_CLIENT_SECRET -t $MY_CRED_TENANT_ID"
                         sh "terraform init"
-                        sh "terraform apply --auto-approve -var $MY_CRED_SUBSCRIPTION_ID"
+                        sh "terraform apply --auto-approve -var "subscription_id=$MY_CRED_SUBSCRIPTION_ID""
                         PUBLIC_IP = sh(
                             script: "terraform ouput public_ip_address",
                             returnStdout: true
