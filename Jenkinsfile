@@ -61,12 +61,13 @@ pipeline {
             }
         }
         stage("deploy") {
+            environment {
+                DOCKER_CRED = credentials('docker-credentials')
+            }
             steps {
                 script {
-                    echo "Waiting for vm to start"
-                    sleep(time: 30, unit: "SECONDS")
                     echo 'deploying image to server'
-                    def shellCmd = "bash ./serverCmds.sh mohibshaikh/mohib-repo:${IMAGE_NAME}"
+                    def shellCmd = "bash ./serverCmds.sh mohibshaikh/mohib-repo:${IMAGE_NAME} ${DOCKER_CRED_USR} ${DOCKER_CRED_PSW}"
                     def azureVm = "azureuser@${PUBLIC_IP}"
                     sshagent(['server-ssh-key']){
                             sh "scp -o StrictHostKeyChecking=no serverCmds.sh ${azureVm}:/home/azureuser"
