@@ -35,10 +35,20 @@ resource "azurerm_network_security_group" "my-app" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "${var.my_ip}"
+    source_address_prefix      = var.my_ip
     destination_address_prefix = "*"
   }
-  
+  security_rule {
+  name                       = "SSH"
+  priority                   = 301
+  direction                  = "Inbound"
+  access                     = "Allow"
+  protocol                   = "Tcp"
+  source_port_range          = "*"
+  destination_port_range     = "22"
+  source_address_prefix      = var.jenkins_ip
+  destination_address_prefix = "*"
+  }
   security_rule {
     name                       = "web-host"
     priority                   = 320

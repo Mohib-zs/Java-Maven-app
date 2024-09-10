@@ -13,6 +13,9 @@ variable location {
 variable my_ip {
     default = "116.90.103.24"
 }
+variable "jenkins_ip" {
+    default = "52.179.82.101" 
+}
 variable vm_size {
     default = "standard_b2s_v2"
 }
