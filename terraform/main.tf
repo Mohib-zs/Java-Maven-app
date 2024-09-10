@@ -28,7 +28,7 @@ resource "azurerm_network_security_group" "my-app" {
   resource_group_name = var.resource_group_name
 
   security_rule {
-    name                       = "SSH"
+    name                       = "SSH-my-ip"
     priority                   = 300
     direction                  = "Inbound"
     access                     = "Allow"
@@ -39,7 +39,7 @@ resource "azurerm_network_security_group" "my-app" {
     destination_address_prefix = "*"
   }
   security_rule {
-  name                       = "SSH"
+  name                       = "SSH-jenkins-ip"
   priority                   = 301
   direction                  = "Inbound"
   access                     = "Allow"
