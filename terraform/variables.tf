@@ -11,7 +11,7 @@ variable location {
     default = "centralus"
 }
 variable my_ip {
-    default = "	116.90.103.7"
+    default = "116.90.103.24"
 }
 variable vm_size {
     default = "standard_b2s_v2"
