@@ -42,7 +42,6 @@ pipeline {
         }
         stage("provision server") {
             environment {
-                managedId = credentials("ManagedID for Linux Vm Usage")
                 TF_VAR_env_prefix = 'test'
                 MY_CRED = credentials('azure-sp-id')
             }
