@@ -6,27 +6,26 @@ provider "azurerm" {
 
 data "azurerm_resource_group" "my-app" {
   name     = var.resource_group_name
-  location = var.location
 }
 
 resource "azurerm_virtual_network" "my-app" {
   name                = "${var.env_prefix}-vnet"
-  resource_group_name = data.azurerm_resource_group.my-app.name
-  location            = data.azurerm_resource_group.my-app.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
   address_space       = [var.vnet_address]
 }
 
 resource "azurerm_subnet" "my-app" {
   name                 = "${var.env_prefix}-subnet-1"
-  resource_group_name  = data.azurerm_resource_group.my-app.name
+  resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.my-app.name
   address_prefixes     = [var.subnet_address]
 }
 
 resource "azurerm_network_security_group" "my-app" {
   name                = "${var.env_prefix}-nsg"
-  location            = data.azurerm_resource_group.my-app.location
-  resource_group_name = data.azurerm_resource_group.my-app.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
 
   security_rule {
     name                       = "SSH"
@@ -66,16 +65,16 @@ resource "azurerm_network_security_group" "my-app" {
 
 resource "azurerm_public_ip" "my-app" {
   name                = "${var.env_prefix}-public-ip"
-  resource_group_name = data.azurerm_resource_group.my-app.name
-  location            = data.azurerm_resource_group.my-app.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
   allocation_method   = "Dynamic"
   sku                 = "Basic"
 }
 
 resource "azurerm_network_interface" "my-app" {
   name                = "${var.env_prefix}-nic"
-  location            = data.azurerm_resource_group.my-app.location
-  resource_group_name = data.azurerm_resource_group.my-app.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = "internal"
@@ -92,13 +91,13 @@ resource "azurerm_network_interface_security_group_association" "my-app" {
 
 data "azurerm_ssh_public_key" "my-app" {
   name                = "my-app-key-pair" # Name of your SSH key in Azure
-  resource_group_name = "my-app-resources"    # Resource group where the key is located
+  resource_group_name = var.resource_group_name    # Resource group where the key is located
 }
 
 resource "azurerm_linux_virtual_machine" "my-app" {
   name                = "${var.env_prefix}-machine"
-  resource_group_name = data.azurerm_resource_group.my-app.name
-  location            = data.azurerm_resource_group.my-app.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
   size                = var.vm_size
   admin_username      = var.vm_username
   custom_data         = base64encode(file("startup-script.sh"))
@@ -127,7 +126,7 @@ resource "azurerm_linux_virtual_machine" "my-app" {
 
 data "azurerm_public_ip" "my-app" {
   name                = azurerm_public_ip.my-app.name
-  resource_group_name = azurerm_linux_virtual_machine.my-app.resource_group_name
+  resource_group_name = var.resource_group_name
 }
 
 output "public_ip_address" {
