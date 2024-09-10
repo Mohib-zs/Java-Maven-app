@@ -89,6 +89,11 @@ resource "azurerm_network_interface_security_group_association" "my-app" {
   network_security_group_id = azurerm_network_security_group.my-app.id
 }
 
+data "azurerm_ssh_public_key" "my-app" {
+  name                = "my-app-key-pair" # Name of your SSH key in Azure
+  resource_group_name = "my-app-resources"    # Resource group where the key is located
+}
+
 resource "azurerm_linux_virtual_machine" "my-app" {
   name                = "${var.env_prefix}-machine"
   resource_group_name = azurerm_resource_group.my-app.name
@@ -102,7 +107,7 @@ resource "azurerm_linux_virtual_machine" "my-app" {
 
   admin_ssh_key {
     username   = var.vm_username
-    public_key = "my-app-key-pair"
+    public_key = data.azurerm_ssh_public_key.my-app.public_key 
   }
 
   os_disk {
