@@ -66,6 +66,7 @@ pipeline {
             }
             steps {
                 script {
+                    sleep(time: 30, unit: "SECONDS")
                     echo 'deploying image to server'
                     echo "${PUBLIC_IP}"
                     def shellCmd = 'bash ./serverCmds.sh mohibshaikh/mohib-repo:${IMAGE_NAME} $DOCKER_CRED_USR $DOCKER_CRED_PSW'
