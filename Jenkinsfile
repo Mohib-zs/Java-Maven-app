@@ -44,7 +44,7 @@ pipeline {
             environment {
                 MY_CRED = credentials('azure-sp-id')
                 TF_VAR_env_prefix = 'test'
-                TF_VAR_subscription_id = '${MY_CRED_SUBSCRIPTION_ID}'
+                TF_VAR_subscription_id = '$MY_CRED_SUBSCRIPTION_ID'
             }
             steps {
                 script {
