@@ -19,10 +19,10 @@ variable "resource_group_name" {
     default = "my-app-resources"
 }
 variable my_ip {
-    default = "116.90.103.178"
+    default = "125.62.88.66"
 }
 variable "jenkins_ip" {
-    default = "13.90.151.74"
+    default = "74.235.227.138"
 }
 variable vm_size {
     default = "standard_b2s_v2"
