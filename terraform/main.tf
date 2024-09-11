@@ -126,7 +126,7 @@ resource "azurerm_linux_virtual_machine" "my-app" {
 
 data "azurerm_public_ip" "my-app" {
   name                = azurerm_public_ip.my-app.name
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_linux_virtual_machine.my-app.resource_group_name
 }
 
 output "public_ip_address" {
