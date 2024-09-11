@@ -73,7 +73,7 @@ pipeline {
                     sshagent(['server-ssh-key']){
                             sh "scp -o StrictHostKeyChecking=no serverCmds.sh ${azureVm}:/home/azureuser"
                             sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${azureVm}:/home/azureuser"
-                            sh "ssh -o StrictHostKeyChecking=no ${azureVm} ${shellCmd}"
+                            sh 'ssh -o StrictHostKeyChecking=no ${azureVm} $shellCmd'
                     }
                 }
             }
