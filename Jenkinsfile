@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script {
                     echo "waiting for vm to start"
-                    sleep(time: 30, unit: "SECONDS")
+                    sleep(time: 90, unit: "SECONDS")
                     echo 'deploying image to server'
                     echo "${PUBLIC_IP}"
                     def shellCmd = 'bash ./serverCmds.sh mohibshaikh/mohib-repo:${IMAGE_NAME} ${DOCKER_CRED_USR} ${DOCKER_CRED_PSW}'
@@ -75,7 +75,7 @@ pipeline {
                     sshagent(['server-ssh-key']){
                             sh "scp -o StrictHostKeyChecking=no serverCmds.sh ${azureVm}:/home/azureuser"
                             sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${azureVm}:/home/azureuser"
-                            sh 'ssh -o StrictHostKeyChecking=no ${azureVm} ${shellCmd}'
+                            sh "ssh -o StrictHostKeyChecking=no ${azureVm} ${shellCmd}"
                     }
                 }
             }
