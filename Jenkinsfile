@@ -10,7 +10,7 @@ pipeline {
 
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-ssh-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]){
                             sh """
-                            scp ${keyfile} azureuser@docker-vm.eastus.cloudapp.azure.com:~/.ssh/my-app-key-pair.pem
+                            scp \$keyfile azureuser@docker-vm.eastus.cloudapp.azure.com:~/.ssh/my-app-key-pair.pem
                             """
                         }
                     }
