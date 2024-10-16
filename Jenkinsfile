@@ -24,7 +24,7 @@ pipeline {
                     remote.name = "ansible-server"
                     remote.host = "docker-vm.eastus.cloudapp.azure.com"
                     remote.allowAnyHosts = true
-                    withCredentials([sshUserPrivateKey(credentialsId: 'docker-ansible-ss', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'docker-ansible-ssh-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                         remote.user = user
                         remote.identityFile = keyfile
                         sshCommand remote: remote, command: "ls -l"
