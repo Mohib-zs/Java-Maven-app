@@ -1,0 +1,11 @@
+---
+plugin: azure_rm
+auth_source: cli
+plain_host_names: yes
+include_vm_resource_groups:
+  - my-app-resources
+hostnames:
+  - name
+keyed_groups:
+  - key: resource_group
+    prefix: rg

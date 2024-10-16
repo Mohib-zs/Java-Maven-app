@@ -1,0 +1,19 @@
+---
+- name: Install Docker and Docker-Compose
+  hosts: rg_my_app_resources
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: Ensuring Docker and Docker-Compose Plugin is installed
+      apt:
+        pkg:
+          - docker.io
+          - docker-compose-v2
+          - acl
+        state: present
+
