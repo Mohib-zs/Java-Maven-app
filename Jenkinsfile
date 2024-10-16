@@ -16,5 +16,21 @@ pipeline {
                 }
             }
         }
+        stage("execute the playbook"){
+            steps {
+                script {
+                    echo "Executing the ansible playbook"
+                    def remote = [:]
+                    remote.name = "ansible-server"
+                    remote.host = "docker-vm.eastus.cloudapp.azure.com"
+                    remote.allowAnyHosts = true
+                    withCredentials([sshUserPrivateKey(credentialsId: 'docker-ansible-ss', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                        remote.user = user
+                        remote.identityFile = keyfile
+                        sshCommand remote: remote, command: "ls -l"
+                    }
+                }
+            }
+        }
     }
 }
