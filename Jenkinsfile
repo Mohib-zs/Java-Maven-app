@@ -15,7 +15,6 @@ pipeline {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-ssh-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]){
                             sh "ssh azureuser@docker-vm.eastus.cloudapp.azure.com 'rm -f ~/.ssh/my-app-key-pair.pem'"
                             sh 'scp $keyfile azureuser@$ANSIBLE_SERVER:~/.ssh/my-app-key-pair.pem'
-                            sh "scp  azureuser@docker-vm.eastus.cloudapp.azure.com:~/linux_posh_cmd"
                         }
                     }
                 }
