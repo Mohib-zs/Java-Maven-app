@@ -36,7 +36,7 @@ pipeline {
                         remote.user = user
                         remote.identityFile = keyfile
                         sshScript remote: remote, script: "prepare-ansible-server.sh"
-                        sshCommand remote: remote, command: 'source venv/bin/activate && az login --service-principal -u $MY_CRED_CLIENT_ID -p $MY_CRED_CLIENT_SECRET -t $MY_CRED_TENANT_ID'
+                        sshCommand remote: remote, command: "source venv/bin/activate && az login --service-principal -u $MY_CRED_CLIENT_ID -p $MY_CRED_CLIENT_SECRET -t $MY_CRED_TENANT_ID"
                         sshCommand remote: remote, command: "source venv/bin/activate && cd ansible && ansible-playbook my-playbook.yaml"
                     }
                 }
