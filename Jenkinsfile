@@ -10,8 +10,6 @@ pipeline {
                     echo "copying all neccessary file to ansible control node"
                     sshagent(['docker-ansible-ssh-key']) {
                         sh "scp -o StrictHostKeyChecking=no ansible/* azureuser@${ANSIBLE_SERVER}:~/ansible"
-                        // sh "scp -o StrictHostKeyChecking=no prepare-ansible-server.sh azureuser@${ANSIBLE_SERVER}:~/prepare-ansible-server.sh"
-
 
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-ssh-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]){
                             sh "ssh azureuser@docker-vm.eastus.cloudapp.azure.com 'rm -f ~/.ssh/my-app-key-pair.pem'"
