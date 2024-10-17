@@ -27,8 +27,9 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'docker-ansible-ssh-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                         remote.user = user
                         remote.identityFile = keyfile
-                        sshCommand remote: remote, command: "source ~/venv/bin/activate"
-                        sshCommand remote: remote, command: "cd ansible && ansible-playbook my-playbook.yaml"
+                        sshCommand remote: remote, command: "source venv/bin/activate"
+                        sshCommand remote: remote, command: "cd ansible"
+                        sshCommand remote: remote, command: "ansible-playbook my-playbook.yaml"
                     }
                 }
             }
