@@ -28,7 +28,7 @@ pipeline {
                         remote.user = user
                         remote.identityFile = keyfile
                         sshCommand remote: remote, command: "source ~/venv/bin/activate"
-                        sshCommand remote: remote, command: "ansible-playbook ~/ansible/my-playbook.yaml"
+                        sshCommand remote: remote, command: "cd ansible && ansible-playbook my-playbook.yaml"
                     }
                 }
             }
