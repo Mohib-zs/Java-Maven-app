@@ -35,7 +35,7 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'docker-ansible-ssh-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                         remote.user = user
                         remote.identityFile = keyfile
-                        sshCommand remote: remote, command: "bash ./prepare-ansible-server.sh ${MY_CRED_CLIENT_ID} ${MY_CRED_CLIENT_SECRET} ${MY_CRED_TENANT_ID}"
+                        sshCommand remote: remote, command: "bash ./prepare-ansible-server.sh \$MY_CRED_CLIENT_ID \$MY_CRED_CLIENT_SECRET \$MY_CRED_TENANT_ID"
                         sshCommand remote: remote, command: "source venv/bin/activate && cd ansible && ansible-playbook my-playbook.yaml"
                     }
                 }
