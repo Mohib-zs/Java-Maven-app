@@ -43,14 +43,6 @@ pipeline {
                 }
             }
         }
-        stage("provision server") {
-            steps {
-                script {
-                    echo "provisioning server"
-                    gv.provisionServer
-                }
-            }
-        }
         stage("deploy") {
             steps {
                 script {
@@ -58,12 +50,12 @@ pipeline {
                 }
             }
         }
-        stage("commit version") {
-            steps {
-                script {
-                    gv.commitVersion()
-                }
-            }
-        }
+        // stage("commit version") {
+        //     steps {
+        //         script {
+        //             gv.commitVersion()
+        //         }
+        //     }
+        // }
     }   
 }
