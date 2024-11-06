@@ -31,7 +31,7 @@ def deployApp() {
     echo 'deploying the application...'
     def dockerCmd = 'docker run -d -p 3080:3080 mohibshaikh/mohib-repo:react-1.0'
     sshagent(['docker-vm-credentials']){
-        sh "ssh -o StrictHostKeyChecking=no azureuser@mohibzahid.eastus.cloudapp.azure.com ${dockerCmd}"
+        sh "ssh -o StrictHostKeyChecking=no azureuser@docker-vm.eastus.cloudapp.azure.com ${dockerCmd}"
     }
 }
 
